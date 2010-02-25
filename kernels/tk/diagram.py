@@ -1,0 +1,134 @@
+# Copyright (c) 2010 Friedrich Romstedt <www.friedrichromstedt.org>
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+# Last changed: 2010 Jan 19
+# Developed since: Aug 2008
+# File version: 0.2.2b
+
+import diagram_cl.panels.tk.diagram as tk_diagram
+import warnings
+
+class Diagram:
+	def __init__(self,master,diagram,shape=None):
+		self.master=master
+		self.diagram=diagram
+		self.panel=tk_diagram.Diagram(
+				master=master,
+				event_handler_start_zoom=self.start_zoom,
+				event_handler_zoom=self.zoom,
+				event_handler_start_pan=self.start_pan,
+				event_handler_pan=self.pan,
+				event_handler_doubleclick=self.autozoom,
+				event_handler_doublerightclick=self.open_settings_dialog,
+				image_computer=self.diagram.render_to_image,
+				shape=shape)
+
+	def update(self):
+		self.panel.update()
+
+	def map_to_axes_coords(self,disp_coords):
+		bbox=self.diagram.axes.get_position()
+		axes_position=(bbox.x0,bbox.y0,bbox.size[0],bbox.size[1]) # (l,b,w,h)
+		return ((disp_coords[0]-axes_position[0])/axes_position[2],
+				(disp_coords[1]-axes_position[1])/axes_position[3])
+	
+	def map_to_data_coords(self,axes_coords):
+		lims=[self.diagram.axes.get_xlim(),self.diagram.axes.get_ylim()]
+		return (lims[0][0]+(lims[0][1]-lims[0][0])*axes_coords[0],
+				lims[1][0]+(lims[1][1]-lims[1][0])*axes_coords[1])
+
+	def start_zoom(self,disp_coords):
+		lims=[self.diagram.axes.get_xlim(),self.diagram.axes.get_ylim()]
+		bbox=self.diagram.axes.get_position()
+		axes_position=(bbox.x0,bbox.y0,bbox.size[0],bbox.size[1]) # (l,b,w,h)
+		axes_coords=self.map_to_axes_coords(disp_coords)
+		self.zoom_start_position=self.map_to_data_coords(axes_coords)
+		self.zoom_original_distances=(
+				[lims[0][0]-self.zoom_start_position[0],
+				 lims[0][1]-self.zoom_start_position[0]],
+				[lims[1][0]-self.zoom_start_position[1],
+				 lims[1][1]-self.zoom_start_position[1]])
+
+	def zoom(self,(zoomx,zoomy)):
+		zoom_new_distances=(
+				[self.zoom_original_distances[0][0]*zoomx,self.zoom_original_distances[0][1]*zoomx],
+				[self.zoom_original_distances[1][0]*zoomy,self.zoom_original_distances[1][1]*zoomy])
+		zoom_new_lims=(
+				[self.zoom_start_position[0]+zoom_new_distances[0][0],
+				 self.zoom_start_position[0]+zoom_new_distances[0][1]],
+				[self.zoom_start_position[1]+zoom_new_distances[1][0],
+				 self.zoom_start_position[1]+zoom_new_distances[1][1]])
+		self.diagram.set_xlim(zoom_new_lims[0])
+		self.diagram.set_ylim(zoom_new_lims[1])
+
+	def start_pan(self):
+		lims=[list(self.diagram.axes.get_xlim()),list(self.diagram.axes.get_ylim())]
+		self.pan_start_lims=lims
+		bbox=self.diagram.axes.get_position()
+		axes_position=(bbox.x0,bbox.y0,bbox.size[0],bbox.size[1]) # (l,b,w,h)
+		self.pan_ratio=(
+				(lims[0][1]-lims[0][0])/axes_position[2],
+				(lims[1][1]-lims[1][0])/axes_position[3])
+
+	def pan(self,compensate):
+		movement=(
+				self.pan_ratio[0]*compensate[0],
+				self.pan_ratio[1]*compensate[1])
+		pan_new_lims=(
+				[self.pan_start_lims[0][0]-movement[0],
+				 self.pan_start_lims[0][1]-movement[0]],
+				[self.pan_start_lims[1][0]-movement[1],
+				 self.pan_start_lims[1][1]-movement[1]])
+		self.diagram.set_xlim(pan_new_lims[0])
+		self.diagram.set_ylim(pan_new_lims[1])
+
+	def autozoom(self):
+		self.diagram.set_autoscale_on(True)
+
+	def open_save_dialog(self, title = None):
+		warnings.warn(DeprecationWarning('diagram_cl.kernels.tk.diagram.Diagram.open_save_dialog() is deprecated, use .open_settings_dialog() instead.'))
+
+		self.open_settings_dialog()
+
+	def open_settings_dialog(self):
+		settingsdialog = tk_diagram.SettingsDialog(self.master,
+				diagram = self.diagram,
+				hook_save_eps=self.save_eps,
+				hook_save_img=self.save_img,
+				hook_update_diagram = self.update)
+
+		if self.panel.pixelsize is not None:
+			(xdim, ydim) = self.panel.pixelsize
+			settingsdialog.img_xdim.set(xdim)
+			settingsdialog.img_ydim.set(ydim)
+
+	def save_eps(self,filename,shape):
+		self.diagram.render_to_eps(shape,filename)
+
+	def save_img(self,filename,shape):
+		im=self.diagram.render_to_image(shape)
+		im.save(filename)
+
+	def saveas(self,filename):
+		warnings.warn(UserWarning('diagram_cl.kernels.tk.Diagram.saveas() is deprecated, use save_eps and save_img instead.'))
+		self.diagram.render_to_eps((9,9),filename)
+
+	def destroy(self):
+		self.panel.destroy()

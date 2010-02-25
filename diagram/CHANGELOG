@@ -1,0 +1,148 @@
+0.1.19b 2/10
+-------
+
+- general changes:
+	Switching to MIT license.
+
+0.1.18b 2/10
+-------
+
+- general changes:
+	Syntax update.
+	import module layers non-local as diagram_cl.layers.
+
+- changes in class Diagram:
+	In render(), adaption to new name convention "diagram_cl.layers".
+	In render_to_ps(), placing a deprecation warning.
+	
+0.1.17b 10/09
+-------
+
+- general changes:
+	Supporting layers 0.2.8b's vmin and vmax arguments.
+
+- changes in class Diagram:
+	In render(), changes in rendering code for Layer3D supporting vmin, vmax.
+
+0.1.16b 9/09
+-------
+
+- general changes:
+	Made PIL Image optional.
+
+0.1.15b 5/09
+-------
+
+- general changes:
+	Supporting layer 0.2.7b's envelope fmt.
+
+- changes in class Diagram:
+	In render(), changes in rendering code for layers with error envelope.
+
+0.1.14b 5/09
+-------
+
+- introducing methods:
+	get_xlim()
+	get_ylim()
+
+0.1.13b 2/09
+-------
+
+- introducing support for envelope mode of Layer2D.
+
+0.1.12b 01/09
+-------
+
+- change in __init__():
+	Calling self.figure.set_size_inches().
+
+0.1.11b 11/08
+-------
+
+- introducing `render_to_eps()'.
+
+0.1.10b 11/08
+-------
+
+- change in `render()':
+	Fix of error if `color' is given.
+
+0.1.9b 11/08
+------
+
+- change in `render()':
+	Fix of error if `color' is not given.
+
+0.1.8b 11/08
+------
+
+- changes due to transition to matplotlib 0.98.3:
+	Transition from set_figsize_inches to set_size_inches in render_to_ps().
+	Transition from print_figure to print_eps in render_to_ps().
+
+- changes due to transition to diagram_cl.layers 0.2.3:
+	Support for the `color' argument of layers.Layer2D.
+	
+0.1.7b 10/08
+------
+
+- changes due to transition to matplotlib 0.98.3: 
+	Use of `self.figure.dpi' instead of `self.figure.dpi.get()'.
+	Use of `self.figure.set_size_inches()' instead of
+	`self.figure.set_figsize_inches()'.
+	Use of `float()' conversion when dividing by `dpi'.
+
+0.1.6b
+------
+
+- introducing set_autoscale_on()
+- deleting render_to_axes(), functionality taken over by render()
+
+0.1.5b
+------
+
+- class Diagram:
+	introducing reset.
+	fix in render: do not clear, but reset if needed.
+
+0.1.4b
+------
+
+- class Diagram:
+	introducing set_xlim, set_ylim. Restoring the xlim and ylim settings in
+	case of figure reset.
+
+0.1.3b
+------
+
+- class Diagram:
+	in render: support for layer3D colormaps
+
+0.1.2b
+------
+
+- class Diagram:
+	in clear: correction
+
+0.1.1a
+------
+
+- introducing in class Diagram:
+	set_title
+	set_xlabel
+	set_ylabel
+	clear
+
+- use of layers.Layer2/3D.changed
+
+0.1.0a
+------
+
+- class Diagram:
+	add_layer
+	render_to_axes
+	render
+	render_to_image
+	render_to_ps
+- papersize (from mpl_backend_ps)

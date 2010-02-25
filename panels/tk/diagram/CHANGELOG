@@ -1,0 +1,88 @@
+0.3.1b 2/10
+------
+
+- general changes:
+	Switching to MIT license.
+
+0.3.0b 1/10
+------
+
+- general changes:
+	Extending save dialog to adjust also title and labeling.
+	New-style syntax with more whitespaces.
+
+- changes in class Diagram:
+	In __init__(..., settings_title = None), additional argument.
+
+- changes in class SettingsDialog (renamed from class SaveDialog):
+	In __init__(..., diagram, hook_update_diagram ...), additional arguments,
+		and creating additional widgets, and deleting argument TITLE.
+	tk_update_labeling()
+	tk_update_limits()
+	update_autoscale_accessibility()
+	tk_autoscale()
+	update_title()
+
+0.2.0b 5/09
+------
+
+- general changes:
+	Introducing save dialog.
+
+- changes in class Diagram:
+	In tk_double_right_button(), calling hook directly.
+
+- introducing class SaveDialog(Tkinter.Toplevel):
+	__init__(master,hook_save_eps,hook_save_img,title=None['Save Diagram'])
+	tk_save_eps()
+	tk_save_img()
+
+0.1.3b 3/09
+------
+
+- changes in update():
+	call self.canvas.update() only if diagram_cl.has_mainloop is not set.
+
+0.1.2b 3/09
+------
+
+- changes in class Diagram:
+	__init__(..., event_handler_doublerightclick, ...), added parameter
+	`event_handler_doublerightclick'.
+	tk_double_right_button(event)
+
+0.1.1b 3/09
+------
+
+- changes in class Diagram:
+	__init__(master,
+			event_handler_start_zoom,
+			event_handler_zoom,
+			event_handler_start_pan,
+			event_handler_pan,
+			event_handler_doubleclick,
+			image_computer,
+			shape), added parameter `shape'.
+	tk_double_left_button(), renamed from double_left_button().
+
+0.1.0b 8/08
+------
+
+- introducing class Diagram:
+	__init__(master,
+			event_handler_start_zoom,
+			event_handler_zoom,
+			event_handler_start_pan,
+			event_handler_pan,
+			event_handler_doubleclick,
+			image_computer)
+	map_to_display((scrx,scry))
+	tk_configure(event)
+	tk_press_left_button(event)
+	tk_press_right_button(event)
+	tk_release_left_button(event)
+	tk_release_right_button(event)
+	double_left_button(event)
+	tk_motion(event)
+	update()
+	destroy()

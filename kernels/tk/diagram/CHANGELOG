@@ -1,0 +1,53 @@
+0.2.2b 2/10
+------
+
+- general changes:
+	Switching to MIT license.
+
+0.2.1b 1/10
+------
+
+- general changes:
+	Adaption to panels.tk.diagram 0.3.0b.
+
+- changes in class Diagram:
+	In open_save_dialog(), TITLE is a noop argument now.
+	open_settings_dialog()
+	In __init__(), using .open_settings_dialog().
+
+0.2.0b 5/09
+------
+
+- general changes:
+	Introducing save dialog.
+
+- changes in class Diagram:
+	In __init__(), storing master; setting handler_doublerightclick.
+	In saveas(), deprecation warning.
+	save_eps(filename,shape)
+	save_img(fileanem,shape)
+	open_save_dialog(title=None), creating save dialog from panel module.
+	
+0.1.5b 3/09
+------
+
+- introducing new method:
+	saveas(filename)
+
+0.1.4b 3/09
+------
+
+- introducing new method:
+	destroy()
+
+0.1.3b 3/09
+------
+
+- change in __init__(), new parameter `shape'.
+
+0.1.2b 10/08
+------
+
+- changes due to transition to matplotlib 0.98.3:
+	Use of bbox attributes, when self.axes.get_position() is used.
+	Use of list() conversion of limits in start_pan().

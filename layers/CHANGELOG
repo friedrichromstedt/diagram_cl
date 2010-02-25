@@ -1,0 +1,122 @@
+0.2.11b 2/10
+-------
+
+- general changes:
+	Switching to MIT license.
+
+0.2.10b 2/10
+-------
+
+- general changes:
+	Syntax update.
+
+0.2.9b 2/10
+------
+
+- general changes:
+	Suppoting undarrays as x and y in Layer2D.
+
+- changes in class Layer2D:
+	In __init__(..., x_ua = False, y_ua = False, ...), new arguments.
+	In set_x(..., x_ua = False), new argument, handling X_UA.
+	In set_y(..., y_ua = False), new argument, handling Y_UA.
+
+0.2.8b 10/09
+------
+
+- general changes:
+	Introducing vmin, vmax.
+
+- changes in class Layer3D:
+	In __init__(..., vmin = None, vmax = None), new paramaters, calling
+		.set_vlim().
+	set_vlim(vmin, vmax)
+
+0.2.7b 5/09
+------
+
+- general changes:
+	Introducing envelope fmt.
+
+- changes in class Layer2D:
+	In __init__(..., fmt_envelope=None[fmt], ...), new parameter; calling
+		set_fmt with new parameter.
+	In set_fmt(..., fmt_envelope=None[fmt]), new parameter; setting
+		fmt_envelope.
+
+0.2.6b 5/09
+------
+
+- changes in class Layer2D:
+	In set_envelope(), BUGFIX: calling set_changed() properly. 
+
+0.2.5b 2/09
+------
+
+- introducing support for envelope error mode in Layer2D:
+	__init__() has new argument `envelope=False'
+	set_envelope(envelope)
+
+0.2.4b 1/09
+------
+
+- change in class Layer3D:
+	Introducing support for onedimensional X and Y.
+
+0.2.3 11/08
+-----
+
+- introducing in class Layer2D:
+	Initialization argument `color'.
+	set_color().
+
+0.2.2
+-----
+
+- introducing in class Layer3D:
+	set_XYC
+
+- fix in class Layer3D:
+	compliance with set_changed() in __init__
+
+0.2.1b
+------
+
+- removing class LayerHistogram2D
+	its functionality is outsourced to the new project Histogram2D
+
+0.2.0b
+------
+
+- introducing class LayerHistogram2D
+
+- class Layer3D:
+	support for two colormaps: black-and-white (cm.gray) and others (cm.jet)
+
+0.1.2a
+------
+
+- introducing in class Layer2D:
+	arguments x_en and y_en
+	set_x
+	set_fmt
+	use of set_x, set_y and set_fmt in __init__
+
+0.1.1a
+------
+
+- introducing class Layer:
+	changed()
+	not_changed()
+
+- deriving Layer2D and Layer3D from Layer
+
+- introducing in class Layer2D:
+	set_y
+
+0.1.0a
+------
+
+- class Layer2D
+
+- class Layer3D
