@@ -1,0 +1,9 @@
+0.1.2b 2/10
+------
+
+- switching to MIT license.
+
+0.1.1b 3/09
+------
+
+- setting the module local attribute has_mainloop default False.
