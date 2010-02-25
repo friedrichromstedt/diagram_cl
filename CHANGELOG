@@ -1,0 +1,14 @@
+0.3.2b 2/10
+------
+
+- Switched to MIT license.
+
+0.3.1b 2/10
+------
+
+- Supporting undarrays in Layer2D.
+
+0.3.0b 1/10
+------
+
+- Extended the Save dialog to the Settings dialog.
